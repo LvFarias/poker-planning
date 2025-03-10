@@ -1,0 +1,52 @@
+{
+	"fontWeight": {
+		"regular": 400,
+		"normal": 500,
+		"semiBold": 600,
+		"bold": 700
+	},
+	"fontFamily": {
+		"popins": ["Poppins", "sans-serif"]
+	},
+	"colors": {
+		"black": {
+			"DEFAULT": "#000000",
+			"100": "#18191A",
+			"200": "#242427",
+			"300": "#333333",
+			"400": "#666666",
+			"500": "#999999",
+			"600": "#CCCCCC",
+			"700": "#D2D2D2",
+			"800": "#F5F5F7"
+		},
+		"transparent": "transparent",
+		"white": "#FFFFFF",
+		"shadow": "#2729371a",
+		"disabled": "#0000000d",
+		"special": {
+			"info": "#4285F4",
+			"danger": "#FD113B",
+			"success": "#2CBB99",
+			"warning": "#791AF8",
+			"live_on": "#FF3354"
+		},
+		"chart_blue": {
+			"100": "#5087EC",
+			"200": "#7ABBE8",
+			"300": "#BEDEF4"
+		},
+		"chart_purple": {
+			"100": "#9A6ED5",
+			"200": "#E1AEF9",
+			"300": "#D1B9F0",
+			"400": "#DDDEEA",
+			"500": "#EFEBF1"
+		}
+	},
+	"extend": {
+		"fontFamily": {
+			"poppins": "Poppins, sans-serif"
+		}
+	}
+}
