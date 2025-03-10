@@ -15,20 +15,27 @@ export function HomePage() {
 	const { rooms, createRoom } = useRooms();
 
 	const navigate = useNavigate();
-	const [user, setUser] = useLocalStorage<User | null>('mimo-user', null);
+	const [user, setUser] = useLocalStorage<User | null>('ramdon-user', null);
 
 	function setUserName(name: string) {
 		if (user) {
 			const id = user.id.length > 7 ? Hash.generateId() : user.id;
-			setUser({...user, id, name, color: `#${Math.floor(Math.random()*16777215).toString(16)}`});
+			setUser({
+				...user,
+				id,
+				name,
+				color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
+			});
 		} else {
 			const id = Hash.generateId();
-			const color = `#${Math.floor(Math.random()*16777215).toString(16)}`;
-			setUser({id, name, color, vote: '', mode: 'user'});
+			const color = `#${Math.floor(Math.random() * 16777215).toString(
+				16
+			)}`;
+			setUser({ id, name, color, vote: '', mode: 'user' });
 		}
 	}
 	function createNewRoom() {
-		const id = createRoom(roomName);
+		const id = createRoom(roomName, user!.id);
 		navigate(`/${id}`);
 	}
 

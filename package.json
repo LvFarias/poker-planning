@@ -1,13 +1,13 @@
 {
-  "name": "@mimo-live-sales/mimo-poker",
+  "name": "@lvfarias/poker-planning",
   "private": false,
   "version": "0.1.0",
   "author": {
-    "name": "Mimo Live Sales"
+    "name": "Luan Vasco de Farias"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://bitbucket.org/adminrc_mimo/mimo-poker.git"
+    "url": "git+https://github.com/LvFarias/poker-planning.git"
   },
   "scripts": {
     "start": "vite",
@@ -21,7 +21,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@mimo-live-sales/mimo-ui": "^0.5.76",
+    "@mimo-live-sales/mimo-ui": "^0.9.0",
     "babel-plugin-transform-scss": "^1.1.0",
     "eslint": "^8.38.0",
     "firebase": "^9.16.0",
@@ -53,6 +53,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^6.3.0",
     "postcss": "^8.4.18",
     "sass": "^1.58.3",
     "styled-components": "^5.3.6",
@@ -61,11 +62,10 @@
     "vite": "^3.2.3"
   },
   "bugs": {
-    "url": "https://bitbucket.org/adminrc_mimo/mimo-poker/issues"
+    "url": "https://github.com/LvFarias/poker-planning/issues"
   },
-  "homepage": "https://bitbucket.org/adminrc_mimo/mimo-poker#readme",
+  "homepage": "https://github.com/LvFarias/poker-planning#readme",
   "license": "ISC",
   "description": "",
-  "readme": "ERROR: No README data found!",
-  "_id": "@mimo-live-sales/mimo-poker@0.1.0"
+  "_id": "@lvfarias/poker-planning@0.1.0"
 }

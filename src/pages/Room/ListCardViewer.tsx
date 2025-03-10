@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 export function ListCardViewer() {
 	const { roomId } = useParams();
 	const { rooms, changeUserMode } = useRooms();
-	const [localUser, setLocalUser] = useLocalStorage<User | null>('mimo-user', null);
+	const [localUser, setLocalUser] = useLocalStorage<User | null>('ramdon-user', null);
 
 	function changeMode() {
 		changeUserMode(roomId!, localUser!.id)

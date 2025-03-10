@@ -19,12 +19,14 @@ export function RoomPage() {
 
 	const { roomId } = useParams();
 	const { rooms, joinRoom, showVotes, clearVotes } = useRooms();
-	const [localUser] = useLocalStorage<User | null>('mimo-user', null);
+	const [localUser] = useLocalStorage<User | null>('ramdon-user', null);
 
 	useEffect(() => {
 		if (room != null) return;
+		console.log(localUser);
 		if (localUser !== null) {
 			room = joinRoom(roomId!, localUser);
+			console.log("AQUI", roomId!, localUser)
 		}
 	}, [room, localUser]);
 

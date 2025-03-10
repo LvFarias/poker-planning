@@ -1,7 +1,14 @@
 import { useFirebaseApp, useObject } from '@hooks/useFirebaseApp';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, onDisconnect, push, ref, remove, set, update } from 'firebase/database';
-import { PropsWithChildren, createContext, useContext, useEffect } from 'react';
+import {
+	getDatabase,
+	onDisconnect,
+	ref,
+	remove,
+	set,
+	update
+} from 'firebase/database';
+import { PropsWithChildren, createContext, useContext } from 'react';
 import Hash from 'utils/hash';
 
 const firebaseConfig = {
@@ -32,7 +39,7 @@ export type Room = {
 };
 type RoomsData = {
 	rooms: Record<string, Room>;
-	createRoom: (name: string) => string;
+	createRoom: (name: string, userId: string) => string;
 	joinRoom: (roomId: string, user: User) => Room;
 	changeUserMode: (roomId: string, userId: string) => void;
 	setUserVote: (roomId: string, userId: string, vote: string) => void;
@@ -52,14 +59,14 @@ export function RoomsProvider({ children }: PropsWithChildren) {
 	});
 	const [rooms] = useObject(ref(getDatabase(roomsApp)));
 
-	function createRoom(name: string) {
+	function createRoom(name: string, userId: string) {
 		const id = Hash.generateId();
 		const code = id.substring(0, 7);
 		const roomDB = {
 			id,
 			name,
 			showVotes: false,
-			users: [],
+			users: [userId],
 		};
 		set(rooms!.child(code).ref, roomDB);
 		return code;
@@ -67,13 +74,22 @@ export function RoomsProvider({ children }: PropsWithChildren) {
 
 	function joinRoom(roomId: string, user: User) {
 		if (rooms?.val()[roomId].users && rooms?.val()[roomId].users[user.id]) {
-			console.log('atualiza user')
-			update(rooms!.child(`${roomId}/users/${user.id}`).ref, {name: user.name, color: user.color});
-		} else if (rooms?.val()[roomId].viewers && rooms?.val()[roomId].viewers[user.id]) {
-			console.log('atualiza viewers')
-			update(rooms!.child(`${roomId}/viewers/${user.id}`).ref, {name: user.name, color: user.color});
+			console.log('atualiza user');
+			update(rooms!.child(`${roomId}/users/${user.id}`).ref, {
+				name: user.name,
+				color: user.color,
+			});
+		} else if (
+			rooms?.val()[roomId].viewers &&
+			rooms?.val()[roomId].viewers[user.id]
+		) {
+			console.log('atualiza viewers');
+			update(rooms!.child(`${roomId}/viewers/${user.id}`).ref, {
+				name: user.name,
+				color: user.color,
+			});
 		} else {
-			console.log('add', user.mode)
+			console.log('add', user.mode);
 			set(rooms!.child(`${roomId}/${user.mode}s/${user.id}`).ref, user);
 		}
 		onDisconnect(rooms!.child(`${roomId}/users/${user.id}`).ref).remove();
@@ -83,10 +99,14 @@ export function RoomsProvider({ children }: PropsWithChildren) {
 
 	function changeUserMode(roomId: string, userId: string) {
 		if (rooms?.val()[roomId].users && rooms?.val()[roomId].users[userId]) {
-			set(rooms!.child(`${roomId}/viewers/${userId}`).ref, {...rooms?.val()[roomId].users[userId]});
+			set(rooms!.child(`${roomId}/viewers/${userId}`).ref, {
+				...rooms?.val()[roomId].users[userId],
+			});
 			remove(rooms!.child(`${roomId}/users/${userId}`).ref);
 		} else {
-			set(rooms!.child(`${roomId}/users/${userId}`).ref, {...rooms?.val()[roomId].viewers[userId]});
+			set(rooms!.child(`${roomId}/users/${userId}`).ref, {
+				...rooms?.val()[roomId].viewers[userId],
+			});
 			remove(rooms!.child(`${roomId}/viewers/${userId}`).ref);
 		}
 	}
@@ -103,7 +123,7 @@ export function RoomsProvider({ children }: PropsWithChildren) {
 		set(rooms!.child(`${roomId}/showVotes`).ref, false);
 		Object.keys(rooms?.val()[roomId].users).map((userId) => {
 			setUserVote(roomId, userId, '');
-		})
+		});
 	}
 
 	return (

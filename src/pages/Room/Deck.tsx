@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 export function Deck() {
 	const cards: Array<any> = ['1', '2', '3', '5', '8', '13', '21'];
 
-	const [localUser] = useLocalStorage<User | null>('mimo-user', null);
+	const [localUser] = useLocalStorage<User | null>('ramdon-user', null);
 
 	const { roomId } = useParams();
 	const { rooms, setUserVote } = useRooms();
