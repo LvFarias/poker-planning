@@ -35,7 +35,7 @@ export function HomePage() {
 		}
 	}
 	function createNewRoom() {
-		const id = createRoom(roomName, user!.id);
+		const id = createRoom(roomName);
 		navigate(`/${id}`);
 	}
 

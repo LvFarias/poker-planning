@@ -39,7 +39,7 @@ export type Room = {
 };
 type RoomsData = {
 	rooms: Record<string, Room>;
-	createRoom: (name: string, userId: string) => string;
+	createRoom: (name: string) => string;
 	joinRoom: (roomId: string, user: User) => Room;
 	changeUserMode: (roomId: string, userId: string) => void;
 	setUserVote: (roomId: string, userId: string, vote: string) => void;
@@ -59,14 +59,13 @@ export function RoomsProvider({ children }: PropsWithChildren) {
 	});
 	const [rooms] = useObject(ref(getDatabase(roomsApp)));
 
-	function createRoom(name: string, userId: string) {
+	function createRoom(name: string) {
 		const id = Hash.generateId();
 		const code = id.substring(0, 7);
 		const roomDB = {
 			id,
 			name,
 			showVotes: false,
-			users: [userId],
 		};
 		set(rooms!.child(code).ref, roomDB);
 		return code;
