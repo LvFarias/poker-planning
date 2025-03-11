@@ -72,6 +72,7 @@ export function RoomsProvider({ children }: PropsWithChildren) {
 	}
 
 	function joinRoom(roomId: string, user: User) {
+		console.log('joinRoom', roomId, user, rooms?.val()[roomId]);
 		if (rooms?.val()[roomId].users && rooms?.val()[roomId].users[user.id]) {
 			console.log('atualiza user');
 			update(rooms!.child(`${roomId}/users/${user.id}`).ref, {

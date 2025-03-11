@@ -1,22 +1,31 @@
 import { useRooms } from '@providers/rooms.provider';
-import { useParams } from 'react-router-dom';
+import React from 'react';
 import { Colors } from 'utils/colors';
+import Hash from 'utils/hash';
 
 type ListCardUserProps = {
 	users: Array<string>;
 	className?: string;
+	roomId: string;
+	listName: string;
 };
-export function ListCardUser({ users, className }: ListCardUserProps) {
-	const { roomId } = useParams();
+export function ListCardUser({
+	users,
+	className,
+	roomId,
+	listName,
+}: ListCardUserProps) {
 	const { rooms } = useRooms();
 
 	return (
-		<div className={`flex w-[fit-content] gap-[1em] ${className}`}>
-			{users.map((userId) => (
-				<>
+		<div
+			className={`flex w-[fit-content] gap-[1em] ${className}`}
+		>
+			{users.map((userId, index) => (
+				<React.Fragment key={`${listName}-${index}`}>
 					{rooms[roomId!]?.users?.[userId] && (
 						<div
-							key={userId}
+							key={`${userId}-${index}`}
 							className="flex flex-col items-center justify-center gap-[0.25em]"
 						>
 							<div
@@ -86,7 +95,7 @@ export function ListCardUser({ users, className }: ListCardUserProps) {
 							</span>
 						</div>
 					)}
-				</>
+				</React.Fragment>
 			))}
 		</div>
 	);

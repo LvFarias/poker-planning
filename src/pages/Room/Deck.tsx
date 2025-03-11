@@ -1,13 +1,14 @@
 import { useLocalStorage } from '@hooks/useLocalStorage';
 import { User, useRooms } from '@providers/rooms.provider';
-import { useParams } from 'react-router-dom';
 
-export function Deck() {
+type DeckProps = {
+	roomId: string;
+};
+
+export function Deck({ roomId }: DeckProps) {
 	const cards: Array<any> = ['1', '2', '3', '5', '8', '13', '21'];
 
 	const [localUser] = useLocalStorage<User | null>('ramdon-user', null);
-
-	const { roomId } = useParams();
 	const { rooms, setUserVote } = useRooms();
 
 	return (
@@ -19,14 +20,16 @@ export function Deck() {
 							flex h-[4em] w-[2.5em] border-[1px] rounded-[5px] items-center justify-center cursor-pointer
 							${
 								card ==
-									rooms[roomId!]?.users?.[localUser!.id].vote &&
+									rooms[roomId!]?.users?.[localUser!.id]
+										.vote &&
 								'bg-[black] text-[white] mb-[2em]'
 							}
 							${rooms[roomId!]?.showVotes && 'cursor-not-allowed'}
 						`}
 					onClick={() => {
 						!rooms[roomId!]?.showVotes &&
-							card != rooms[roomId!]?.users?.[localUser!.id].vote &&
+							card !=
+								rooms[roomId!]?.users?.[localUser!.id].vote &&
 							setUserVote(roomId!, localUser!.id, card);
 					}}
 				>

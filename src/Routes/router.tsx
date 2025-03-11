@@ -8,9 +8,14 @@ import { RoomsProvider } from '@providers/rooms.provider';
 export default function Router() {
 	return (
 		<Routes>
-			<Route path={MyRoutes.HOME} element={<RoomsProvider><HomePage /></RoomsProvider>} />
-			<Route path={MyRoutes.ROOM} element={<RoomsProvider><RoomPage /></RoomsProvider>} />
-			<Route path={MyRoutes.NOT_FOUND} element={<NotFoundPage />} />
+			<Route
+				path={MyRoutes.HOME}
+				element={
+					<RoomsProvider>
+						<HomePage />
+					</RoomsProvider>
+				}
+			/>
 		</Routes>
 	);
 }

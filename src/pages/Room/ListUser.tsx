@@ -1,8 +1,8 @@
 import { useRooms } from '@providers/rooms.provider';
-import { useParams } from 'react-router-dom';
-
-export function ListUser() {
-	const { roomId } = useParams();
+type ListUserProps = {
+	roomId: string;
+};
+export function ListUser({ roomId }: ListUserProps) {
 	const { rooms } = useRooms();
 
 	return (
@@ -25,7 +25,8 @@ export function ListUser() {
 						key={idx}
 						className="min-w-[2em] min-h-[2em] flex items-center justify-center rounded-[50%] text-white ml-[-0.75em] border-[1px]"
 						style={{
-							backgroundColor: rooms[roomId!].viewers[viewerId].color,
+							backgroundColor:
+								rooms[roomId!].viewers[viewerId].color,
 						}}
 					>
 						{rooms[roomId!].viewers[viewerId].name.substring(0, 1)}

@@ -1,22 +1,27 @@
 import { useLocalStorage } from '@hooks/useLocalStorage';
 import { MimoIcon, MimoToggle } from '@mimo-live-sales/mimo-ui';
 import { User, useRooms } from '@providers/rooms.provider';
-import { useParams } from 'react-router-dom';
-
-export function ListCardViewer() {
-	const { roomId } = useParams();
+type ListCardViewerProps = {
+	roomId: string;
+};
+export function ListCardViewer({ roomId }: ListCardViewerProps) {
 	const { rooms, changeUserMode } = useRooms();
-	const [localUser, setLocalUser] = useLocalStorage<User | null>('ramdon-user', null);
+	const [localUser, setLocalUser] = useLocalStorage<User | null>(
+		'ramdon-user',
+		null
+	);
 
 	function changeMode() {
-		changeUserMode(roomId!, localUser!.id)
-		const mode = !rooms[roomId!]?.viewers?.[localUser!.id] ? 'viewer' : 'user';
-		setLocalUser({...localUser!, mode});
+		changeUserMode(roomId!, localUser!.id);
+		const mode = !rooms[roomId!]?.viewers?.[localUser!.id]
+			? 'viewer'
+			: 'user';
+		setLocalUser({ ...localUser!, mode });
 	}
 
 	return (
 		<div className="flex flex-col items-start w-[fit-content] gap-[1em]">
-			<div className='flex items-center gap-[1em]'>
+			<div className="flex items-center gap-[1em]">
 				<MimoToggle
 					onChange={() => changeMode()}
 					toggle={!!rooms[roomId!]?.viewers?.[localUser!.id]}
