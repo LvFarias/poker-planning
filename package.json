@@ -1,7 +1,7 @@
 {
   "name": "@lvfarias/poker-planning",
   "private": false,
-  "version": "0.1.0",
+  "version": "2.1.0",
   "author": {
     "name": "Luan Vasco de Farias"
   },
@@ -67,5 +67,5 @@
   "homepage": "https://github.com/LvFarias/poker-planning#readme",
   "license": "ISC",
   "description": "",
-  "_id": "@lvfarias/poker-planning@0.1.0"
+  "_id": "@lvfarias/poker-planning@2.1.0"
 }
