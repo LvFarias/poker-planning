@@ -26,7 +26,7 @@ export function ListCardViewer() {
 					key={viewerId}
 					className="flex flex-col items-start justify-center gap-[0.25em]"
 				>
-					<div className="flex h-[4em] w-[2.5em] border-[1px] rounded-[5px] items-center justify-center">
+					<div className="flex h-[4em] w-[2.5em] border-[1px] rounded-[5px] items-center justify-center sm:hidden">
 						<span className="flex items-center justify-center">
 							<MimoIcon name="eye-line" />
 						</span>
