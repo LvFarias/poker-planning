@@ -1,73 +1,31 @@
-import { useLocalStorage } from '@hooks/useLocalStorage';
 import { MimoButton } from '@mimo-live-sales/mimo-ui';
-import { Room, User, useRooms } from '@providers/rooms.provider';
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useRooms } from '@providers/rooms.provider';
+import { useUser } from '@providers/user.provider';
+import { useEffect } from 'react';
 import { Deck } from './Deck';
 import { ListCardUser } from './ListCardUser';
 import { ListCardViewer } from './ListCardViewer';
 import { ListUser } from './ListUser';
 
-let room: Room;
-
 export function RoomPage() {
-	const [roomId, setRoomId] = useState('');
-	const [totalUsers, setTotalUsers] = useState([] as Array<string>);
-	const [leftUsers, setLeftUsers] = useState([] as Array<string>);
-	const [topUsers, setTopUsers] = useState([] as Array<string>);
-	const [rightUsers, setRightUsers] = useState([] as Array<string>);
-	const [downUsers, setDownUsers] = useState([] as Array<string>);
-
-	const [searchParams] = useSearchParams();
-	const { rooms, joinRoom, showVotes, clearVotes } = useRooms();
-	const [localUser] = useLocalStorage<User | null>('ramdon-user', null);
+	const { user } = useUser();
+	const { room, roomId, rooms, joinRoom, showVotes, clearVotes } = useRooms();
 
 	useEffect(() => {
-		if (room != null) return;
-		if (searchParams.get('room') == null) return;
-		if (localUser !== null) {
-			setRoomId(searchParams.get('room')!);
-			room = joinRoom(searchParams.get('room')!, localUser);
-		}
-	}, [room, searchParams, localUser]);
-
-	useEffect(() => {
-		if (roomId == '') return;
-		console.log(roomId, rooms[roomId!]?.users);
-		const ids = Object.keys(rooms[roomId!].users || {});
-		if (totalUsers.length == ids.length) return;
-		setTotalUsers(ids);
-		if (ids.length == 1) {
-			setLeftUsers([]);
-			setRightUsers([]);
-			setDownUsers([]);
-			setTopUsers(ids);
-		} else if (ids.length == 2) {
-			setLeftUsers([]);
-			setRightUsers([]);
-			setTopUsers(ids.slice(0, ids.length / 2));
-			setDownUsers(ids.slice(ids.length / 2));
-		} else {
-			setLeftUsers(ids.slice(0, 1));
-			setTopUsers(ids.slice(1, Math.round((ids.length - 1) / 2)));
-			setDownUsers(
-				ids.slice(Math.round((ids.length - 1) / 2), ids.length - 1)
-			);
-			setRightUsers(ids.slice(ids.length - 1));
-		}
-		console.log(totalUsers, topUsers, leftUsers, rightUsers, downUsers);
-	}, [roomId, rooms[roomId!]?.users]);
+		if (room != null && room.users && room.users[user!.id]) return;
+		joinRoom(roomId, user!);
+	}, [room, roomId, user]);
 
 	function getVotesAvg() {
-		let votes = 0;
 		let sum = 0;
-		Object.keys(rooms[roomId!].users || {}).map((userId) => {
-			if (Number(rooms[roomId!].users[userId].vote) > 0) {
+		let votes = 0;
+		Object.keys(room?.users || {}).map((userId) => {
+			if (Number(room?.users[userId].vote) > 0) {
 				votes++;
-				sum += Number(rooms[roomId!].users[userId].vote);
+				sum += Number(room?.users[userId].vote);
 			}
 		});
-		return sum > 0 ? sum / votes : 0;
+		return Math.round(sum > 0 ? sum / votes : 0);
 	}
 
 	return (
@@ -76,58 +34,40 @@ export function RoomPage() {
 				<>
 					<div className="flex w-full h-[4em] items-center justify-between py-[1em] px-[2em] shadow-[0_0_20px_0_#00000080]">
 						<div className="name">
-							{rooms[roomId!]?.name} - {roomId!}
+							<b>{room?.name}:</b> {roomId}
 						</div>
-						<ListUser roomId={roomId} />
+						<ListUser />
 					</div>
-					<div className="flex w-[fit-content] h-[calc(100vh-10em)] items-center justify-center flex-col my-[0] mx-auto gap-[1em]">
+					<div className="flex w-[fit-content] h-[calc(100vh-10em-90px)] items-center justify-center my-[0] mx-auto gap-[1em]">
 						<div className="absolute top-[6em] left-[2em]">
-							<ListCardViewer roomId={roomId} />
+							<ListCardViewer />
 						</div>
-						<ListCardUser
-							listName="topUsers"
-							roomId={roomId}
-							users={topUsers}
-						></ListCardUser>
-						<div className="flex items-center w-full gap-[1em]">
-							<ListCardUser
-								listName="leftUsers"
-								roomId={roomId}
-								users={leftUsers}
-							></ListCardUser>
+						<ListCardUser position="left" />
+						<div className="flex flex-col items-center w-full gap-[1em]">
+							<ListCardUser position="top" />
 							<div className="w-full h-[8em] min-w-[18em] inline-flex flex-col gap-[1em] items-center justify-center rounded-[10px] shadow-[0_0_20px_0_#00000080]">
-								<MimoButton
+								{room?.viewers?.[user!.id] && (<MimoButton
 									label={
-										rooms[roomId!].showVotes
+										room?.showVotes
 											? 'Limpar'
 											: 'Mostrar'
 									}
 									onClick={() =>
-										rooms[roomId!].showVotes
+										room?.showVotes
 											? clearVotes(roomId!)
 											: showVotes(roomId!)
 									}
-								/>
+								/>)}
 								<span className="h-[2em] flex items-center justify-center">
-									{rooms[roomId!].showVotes &&
+									{room?.showVotes &&
 										`Média: ${getVotesAvg()}`}
 								</span>
 							</div>
-							<ListCardUser
-								listName="rightUsers"
-								roomId={roomId}
-								users={rightUsers}
-							></ListCardUser>
+							<ListCardUser position="down" />
 						</div>
-						<ListCardUser
-							listName="downUsers"
-							roomId={roomId}
-							users={downUsers}
-						></ListCardUser>
+						<ListCardUser position="right" />
 					</div>
-					{rooms[roomId!]?.users?.[localUser!.id] && (
-						<Deck roomId={roomId} />
-					)}
+					{room?.users?.[user!.id] && <Deck />}
 				</>
 			)}
 		</>

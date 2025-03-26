@@ -11,9 +11,7 @@ export default function Router() {
 			<Route
 				path={MyRoutes.HOME}
 				element={
-					<RoomsProvider>
-						<HomePage />
-					</RoomsProvider>
+					<HomePage />
 				}
 			/>
 		</Routes>

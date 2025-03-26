@@ -1,37 +1,55 @@
 import { useRooms } from '@providers/rooms.provider';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Colors } from 'utils/colors';
-import Hash from 'utils/hash';
 
 type ListCardUserProps = {
-	users: Array<string>;
-	className?: string;
-	roomId: string;
-	listName: string;
+	position: string;
 };
-export function ListCardUser({
-	users,
-	className,
-	roomId,
-	listName,
-}: ListCardUserProps) {
-	const { rooms } = useRooms();
+export function ListCardUser({ position }: ListCardUserProps) {
+	const { room } = useRooms();
+	const [userList, setUserList] = useState([] as Array<any>);
+
+	useEffect(() => {
+		const list = Object.values(room?.users || {});
+		if (!list.length) return;
+		setUserList([]);
+		
+		if (list.length > 3) {
+			if (position === 'left') setUserList(list.slice(0, 1));
+			if (position === 'right') setUserList(list.slice(-1));
+			const topDownList = list.filter(
+				(u, i) => i != 0 && i != list.length - 1
+			);
+			const half = Math.round(topDownList.length / 2);
+			const topList = topDownList.slice(0, half);
+			const downList = topDownList.slice(half);
+			if (position === 'top') setUserList(topList);
+			if (position === 'down') setUserList(downList);
+		} else if (list.length == 3) {
+			if (position === 'left') setUserList(list.slice(0, 1));
+			if (position === 'top') setUserList(list.slice(1, 2));
+			if (position === 'right') setUserList(list.slice(-1));
+		} else if (list.length == 2) {
+			if (position === 'top') setUserList(list.slice(0, 1));
+			if (position === 'down') setUserList(list.slice(1));
+		} else {
+			if (position === 'top') setUserList(list);
+		}
+	}, [room?.users, position]);
 
 	return (
-		<div
-			className={`flex w-[fit-content] gap-[1em] ${className}`}
-		>
-			{users.map((userId, index) => (
-				<React.Fragment key={`${listName}-${index}`}>
-					{rooms[roomId!]?.users?.[userId] && (
+		<div className='flex gap-[1em]'>
+			{userList.map((user) => (
+				<React.Fragment key={`user-${user.id}`}>
+					{room?.users?.[user.id] && (
 						<div
-							key={`${userId}-${index}`}
-							className="flex flex-col items-center justify-center gap-[0.25em]"
+							key={`duser-${user.id}`}
+							className="flex flex-col items-center justify-center gap-[0.25em] w-[100px] overflow-hidden"
 						>
 							<div
 								className="flex h-[4em] w-[2.5em] border-[1px] rounded-[5px] items-center justify-center"
 								style={{
-									transform: rooms[roomId!].showVotes
+									transform: room.showVotes
 										? 'rotateY(180deg)'
 										: 'rotateY(0deg)',
 									transition: 'transform 0.8s',
@@ -46,8 +64,8 @@ export function ListCardUser({
 										className="h-full w-full flex items-center justify-center text-white"
 										style={{
 											backgroundColor: `${
-												rooms[roomId!]?.users?.[userId]
-													.vote != ''
+												room?.users?.[user.id]?.vote !=
+												''
 													? Colors.getColor(
 															'special',
 															'success'
@@ -71,8 +89,8 @@ export function ListCardUser({
 										className="h-full w-full flex items-center justify-center text-white"
 										style={{
 											backgroundColor: `${
-												rooms[roomId!]?.users?.[userId]
-													.vote != ''
+												room?.users?.[user.id]?.vote !=
+												''
 													? Colors.getColor(
 															'special',
 															'success'
@@ -84,14 +102,13 @@ export function ListCardUser({
 											}`,
 										}}
 									>
-										{rooms[roomId!].showVotes &&
-											rooms[roomId!]?.users?.[userId]
-												.vote}
+										{room.showVotes &&
+											room?.users?.[user.id]?.vote}
 									</span>
 								</div>
 							</div>
-							<span className="whitespace-nowrap">
-								{rooms[roomId!]?.users?.[userId].name}
+							<span className="w-full overflow-hidden text-ellipsis text-center whitespace-nowrap">
+								{user.name}
 							</span>
 						</div>
 					)}
