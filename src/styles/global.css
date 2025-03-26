@@ -16,3 +16,9 @@
     background: theme('colors.black.600'); 
     border-radius: 20px;
 }
+
+#root {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}

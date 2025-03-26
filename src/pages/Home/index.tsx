@@ -13,17 +13,14 @@ export function HomePage() {
 	useEffect(() => {
 		if (roomId != searchParams.get('room')!)
 			setRoomId(searchParams.get('room') || '');
-	}, [searchParams, roomId]);
+	}, [searchParams, roomId, setRoomId]);
+
 	return (
 		<>
-			<div className="h-[calc(100vh-90px)]">
-				{roomId && user ? (
-					<RoomPage />
-				) : (
-					<SetupPage />
-				)}
+			<div className="h-full">
+				{roomId && user ? <RoomPage /> : <SetupPage />}
 			</div>
-			<footer className="p-5 w-screen text-center flex flex-col gap-2.5 h-21 shadow-[0_-5px_5px_-5px_rgba(200,200,200)] bg-[rgba(200,200,200,0.25)]">
+			<footer className="p-5 w-screen text-center flex flex-col gap-2.5 h-21 shadow-[0_-5px_5px_-5px_theme(colors.black.500)] bg-black-800">
 				<h1 className="text-lg font-semibold leading-tight block">
 					Esta ferramenta de Planning Poker é GRATUITA, de Código
 					Aberto e Colaborativa. Nunca será PAGA ou terá ANÚNCIOS.
@@ -33,6 +30,7 @@ export function HomePage() {
 					<a
 						className="underline cursor-pointer"
 						target="_blank"
+						rel="noreferrer"
 						href="https://github.com/LvFarias/poker-planning"
 					>
 						GitHub
@@ -41,6 +39,7 @@ export function HomePage() {
 					<a
 						className="underline cursor-pointer"
 						target="_blank"
+						rel="noreferrer"
 						href="https://github.com/LvFarias/poker-planning/issues"
 					>
 						issues
@@ -49,6 +48,7 @@ export function HomePage() {
 					<a
 						className="underline cursor-pointer"
 						target="_blank"
+						rel="noreferrer"
 						href="https://github.com/LvFarias/poker-planning/pulls"
 					>
 						PRs

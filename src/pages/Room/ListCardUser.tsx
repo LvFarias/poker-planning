@@ -13,7 +13,7 @@ export function ListCardUser({ position }: ListCardUserProps) {
 		const list = Object.values(room?.users || {});
 		if (!list.length) return;
 		setUserList([]);
-		
+
 		if (list.length > 3) {
 			if (position === 'left') setUserList(list.slice(0, 1));
 			if (position === 'right') setUserList(list.slice(-1));
@@ -38,7 +38,7 @@ export function ListCardUser({ position }: ListCardUserProps) {
 	}, [room?.users, position]);
 
 	return (
-		<div className='flex gap-[1em]'>
+		<div className="flex gap-[1em] sm:flex-col">
 			{userList.map((user) => (
 				<React.Fragment key={`user-${user.id}`}>
 					{room?.users?.[user.id] && (
