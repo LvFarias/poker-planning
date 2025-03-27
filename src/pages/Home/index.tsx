@@ -17,7 +17,7 @@ export function HomePage() {
 
 	return (
 		<>
-			<div className="h-full">
+			<div className="h-full overflow-x-scroll w-full -mb-[1em]">
 				{roomId && user ? <RoomPage /> : <SetupPage />}
 			</div>
 			<footer className="p-5 w-screen text-center flex flex-col gap-2.5 h-21 shadow-[0_-5px_5px_-5px_theme(colors.black.500)] bg-black-800">

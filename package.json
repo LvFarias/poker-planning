@@ -1,7 +1,7 @@
 {
   "name": "@lvfarias/poker-planning",
   "private": false,
-  "version": "2.1.0",
+  "version": "2.2.0",
   "author": {
     "name": "Luan Vasco de Farias"
   },
@@ -27,6 +27,7 @@
     "firebase": "^9.16.0",
     "html-react-parser": "^3.0.9",
     "prettier": "^2.8.7",
+    "qrcode.react": "^4.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.1.1",
@@ -67,5 +68,5 @@
   "homepage": "https://github.com/LvFarias/poker-planning#readme",
   "license": "ISC",
   "description": "",
-  "_id": "@lvfarias/poker-planning@2.1.0"
+  "_id": "@lvfarias/poker-planning@2.2.0"
 }

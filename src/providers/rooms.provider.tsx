@@ -65,14 +65,13 @@ export function RoomsProvider({ children }: PropsWithChildren) {
 
 	function createRoom(name: string) {
 		const id = Hash.generateId();
-		const code = id.substring(0, 7);
 		const roomDB = {
 			id,
 			name,
 			showVotes: false,
 		};
-		set(rooms!.child(code).ref, roomDB);
-		return code;
+		set(rooms!.child(id).ref, roomDB);
+		return id;
 	}
 
 	function joinRoom(_roomId: string, user: User) {
