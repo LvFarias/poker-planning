@@ -52,8 +52,8 @@ export function SetupPage() {
 	}
 
 	return (
-		<div className="w-[100vw] h-[100%] flex items-center justify-center">
-			<div className="w-[50vw] flex flex-col items-center gap-[2em] p-[2em] rounded-[10px] shadow-[0_0_20px_0_theme(colors.black.400)] sm:w-[90vw] sm:p[1em]">
+		<div className="w-[100dvw] h-[100%] flex items-center justify-center">
+			<div className="w-[50dvw] flex flex-col items-center gap-[2em] p-[2em] rounded-[10px] shadow-[0_0_20px_0_theme(colors.black.400)] sm:w-[90dvw] sm:p[1em]">
 				<MimoInput
 					className="w-[50%] sm:w-full sm:w-full"
 					placeholder="Digite seu Nome"

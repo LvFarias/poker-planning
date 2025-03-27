@@ -21,6 +21,8 @@
 			"800": "#F5F5F7"
 		},
 		"transparent": "transparent",
+		"primary": "#0abab5",
+		"accent": "#8a05be",
 		"white": "#ecfefd",
 		"shadow": "#0e01141a",
 		"disabled": "#0e01140d",
