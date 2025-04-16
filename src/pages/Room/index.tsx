@@ -8,15 +8,19 @@ import { ListCardUser } from './ListCardUser';
 import { ListCardViewer } from './ListCardViewer';
 import { ListUser } from './ListUser';
 import { Colors } from 'utils/colors';
+import { useNavigate } from 'react-router-dom';
 
 export function RoomPage() {
+	const navigate = useNavigate();
 	const { user } = useUser();
 	const { room, roomId, joinRoom, showVotes, clearVotes } = useRooms();
 
 	useEffect(() => {
-		if (room != null && room.users && room.users[user!.id]) return;
+		if (room == null) return navigate('/');
+		if (room[`${user!.mode}s`] && room[`${user!.mode}s`][user!.id]) return;
+
 		joinRoom(roomId, user!);
-	}, [room, roomId, user, joinRoom]);
+	}, [room, roomId, user, joinRoom, navigate]);
 
 	function getVotesAvg() {
 		let sum = 0;
