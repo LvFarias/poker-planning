@@ -61,37 +61,40 @@ export function SetupPage() {
 					onChange={(v) => setUserName(v)}
 				/>
 				<div className="w-full flex items-center justify-evenly gap-[2em] p-[1em] sm:p-[0] sm:flex-col">
-					<div className="w-full flex flex-col align-start gap-[0.5em]">
-						<MimoInput
-							className="w-full"
-							label="Crie uma nova Sala:"
-							placeholder="Nome da Sala"
-							value={roomName}
-							onChange={(v) => setRoomName(v)}
-						/>
-						<MimoButton
-							className="mx-0 my-auto"
-							label="Criar"
-							disabled={!roomName}
-							onClick={() => createNewRoom()}
-						/>
-					</div>
-					<span>ou</span>
-					<div className="w-full flex flex-col align-start gap-[0.5em]">
-						<MimoInput
-							className="w-full"
-							label="Entrar em uma sala:"
-							placeholder="Código da Sala"
-							value={_roomId}
-							onChange={(v) => setRoomId(v)}
-						/>
-						<MimoButton
-							className="mx-0 my-auto"
-							label="Entrar"
-							disabled={!_roomId}
-							onClick={() => joinRoom()}
-						/>
-					</div>
+					{!roomId && (
+						<div className="w-full flex flex-col align-start gap-[0.5em]">
+							<MimoInput
+								className="w-full"
+								label="Crie uma nova Sala:"
+								placeholder="Nome da Sala"
+								value={roomName}
+								onChange={(v) => setRoomName(v)}
+							/>
+							<MimoButton
+								className="mx-0 my-auto"
+								label="Criar"
+								disabled={!roomName}
+								onClick={() => createNewRoom()}
+							/>
+						</div>
+					)}
+					{roomId && (
+						<div className="w-full flex flex-col align-start gap-[0.5em]">
+							<MimoInput
+								className="w-full"
+								label="Entrar em uma sala:"
+								placeholder="Código da Sala"
+								value={_roomId}
+								onChange={(v) => setRoomId(v)}
+							/>
+							<MimoButton
+								className="mx-0 my-auto"
+								label="Entrar"
+								disabled={!_roomId}
+								onClick={() => joinRoom()}
+							/>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>
